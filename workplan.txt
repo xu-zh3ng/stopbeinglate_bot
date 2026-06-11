@@ -1,0 +1,32 @@
+TELE BOT:
+
+IDEA IS TO:
+	USER SENDS LOC TO BOT, BOT PINS IT --> SPECIFIC FUNCTION TAGGED PIN             done
+	WHENEVER USER PINGS THE BOT WITH THEIR LOCATION & METHOD OF TRANSPORT,
+	BOT RUNS THE 2 COORDS VIA GOOGLE MAPS, 
+	RETURNS CAR, BUS, WALK, DEFAULT BUS
+	see if need function clear
+
+
+
+
+WORKPLAN:
+	FIGURE OUT HOW TO START TELE BOT FIRST
+	FIGURE OUT HOW TO EXTRACT USER LOC FROM MSG + PIN SPECIFIC LOC
+	FIGURE OUT HOW TO RETURN DIST 
+	 
+
+
+ext ideas:
+store/clear date and time to meetup /settime
+/meetup to check 
+runs when user replies to the bot --> tell user what time they should leave by --> datetime 
+store locations in a list
+add pickel persistence
+
+work tmr:
+integrate places api and replace the coords with placeid
+once user sets a pin, also reply a popup for them to double confirm --> maybe user can use setpin name instead of google link or can take both just filter using if in the command
+rearrange/reformat main 
+move photos to photos file
+make it so that if traveltime >60 return hrs & mins
