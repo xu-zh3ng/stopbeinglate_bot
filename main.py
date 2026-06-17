@@ -2,21 +2,15 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes, PicklePersistence
 import requests
 from datetime import datetime, timedelta
-from helpers import get_coords, get_travel_time, meetup_time, get_placename, get_placeid, pictures
+from helpers import get_coords, get_travel_time, meetup_time, get_placename, get_placeid
 import os
 from dotenv import load_dotenv
-import random
 import re
 
 load_dotenv()
 
 TOKEN = os.getenv("TOKEN")
 BOT_USERNAME = os.getenv("BOT_USERNAME")
-wayne_id = int(os.getenv("wayne_id"))
-rayen_id = int(os.getenv("rayen_id"))
-yukai_id = int(os.getenv("yukai_id"))
-charis_id = int(os.getenv("charis_id"))
-anjoe_id = int(os.getenv("anjoe_id"))
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
@@ -238,59 +232,6 @@ async def leavetime(update: Update, context: ContextTypes.DEFAULT_TYPE):
     leave_time = meetup - timedelta(minutes=travel_time)
     await update.message.reply_text(f"You should leave at {leave_time.strftime('%d %B %Y at %I:%M%p')} to reach at {meetup.strftime('%I:%M%p')}")
     
-async def jay(update:Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.delete_message(
-        chat_id=update.effective_chat.id,
-        message_id=update.message.message_id
-    )
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="Message eaten by jay")
-    await context.bot.send_photo(chat_id=update.effective_chat.id, photo="photos/jay.jpg")
-
-async def trolling(update:Update, context: ContextTypes.DEFAULT_TYPE):
-    if not update.message:
-        return
-    n = random.randrange(1,10)
-    if update.message.from_user.id == yukai_id:
-        if n % 10 == 0:
-            await update.message.reply_photo(photo="photos/rainbow.png", caption="guy above looking for cock")
-    
-    elif update.message.from_user.id == charis_id:
-         if n < 3:
-             picture = random.choice(pictures)
-             await update.message.reply_photo(photo=picture, caption="meal time!")
-
-    elif update.message.from_user.id == anjoe_id:
-        # if n < 3:
-        #     await context.bot.delete_message(chat_id=update.effective_chat.id,
-        #                                     message_id=update.message.message_id)
-        #     await context.bot.send_message(chat_id=update.effective_chat.id, text="chong ray en request")
-        #     await context.bot.send_photo(chat_id=update.effective_chat.id, photo="photos/decree.png")
-
-        if n > 7:
-            await update.message.reply_photo(photo="photos/slander.png")
-    
-    elif update.message.from_user.id == rayen_id:
-        await update.message.reply_photo(photo="photos/idiot.png")
-
-async def catch_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.message.from_user.id == wayne_id and any(word in update.message.text.lower() for word in ["spurs", "knicks","work"]):
-        await update.message.reply_photo(photo="photos/larp.png")
-        return
-
-    elif update.message.from_user.id == rayen_id and "🫩" in update.message.text:
-        if "count" not in context.user_data:
-            context.user_data["count"] = 0
-
-        count = context.user_data.get("count")
-        count += 1
-        context.user_data["count"] = count
-
-        await update.message.reply_text(f"🫩 count:{count}")
-        return
-    
-    elif update.message.from_user.id == rayen_id and "me" in update.message.text:
-        await update.message.reply_photo(photo="photos/dude.png")
-        return
 
 def main():
     persistence = PicklePersistence(filepath="bot_data.pkl")
@@ -304,17 +245,9 @@ def main():
     app.add_handler(CommandHandler("setmeetup", setmeetup_command))
     app.add_handler(CommandHandler("meetup", meetup_command))
     app.add_handler(MessageHandler(filters.LOCATION, user_loc))
-    app.add_handler(MessageHandler(filters.TEXT & filters.Regex(r"(?i)spurs|knicks|🫩|me|work"), catch_word))
     app.add_handler(MessageHandler(filters.TEXT & filters.REPLY, leavetime))
-    app.add_handler(MessageHandler(filters.TEXT & filters.Regex(r"(?i)jay"), jay))
-    app.add_handler(MessageHandler(filters.ALL, trolling))
-
 
     app.run_polling(drop_pending_updates=True)
-
-
-
-
 
 if __name__ == "__main__":
 

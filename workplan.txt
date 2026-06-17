@@ -30,3 +30,57 @@ once user sets a pin, also reply a popup for them to double confirm --> maybe us
 rearrange/reformat main 
 move photos to photos file
 make it so that if traveltime >60 return hrs & mins
+
+async def jay(update:Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.delete_message(
+        chat_id=update.effective_chat.id,
+        message_id=update.message.message_id
+    )
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="Message eaten by jay")
+    await context.bot.send_photo(chat_id=update.effective_chat.id, photo="photos/jay.jpg")
+
+async def trolling(update:Update, context: ContextTypes.DEFAULT_TYPE):
+    if not update.message:
+        return
+    n = random.randrange(1,10)
+    if update.message.from_user.id == yukai_id:
+        if n % 10 == 0:
+            await update.message.reply_photo(photo="photos/rainbow.png", caption="guy above looking for cock")
+    
+    elif update.message.from_user.id == charis_id:
+         if n < 3:
+             picture = random.choice(pictures)
+             await update.message.reply_photo(photo=picture, caption="meal time!")
+
+    elif update.message.from_user.id == anjoe_id:
+        # if n < 3:
+        #     await context.bot.delete_message(chat_id=update.effective_chat.id,
+        #                                     message_id=update.message.message_id)
+        #     await context.bot.send_message(chat_id=update.effective_chat.id, text="chong ray en request")
+        #     await context.bot.send_photo(chat_id=update.effective_chat.id, photo="photos/decree.png")
+
+        if n > 7:
+            await update.message.reply_photo(photo="photos/slander.png")
+    
+    elif update.message.from_user.id == rayen_id:
+        await update.message.reply_photo(photo="photos/idiot.png")
+
+async def catch_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.from_user.id == wayne_id and any(word in update.message.text.lower() for word in ["spurs", "knicks","work"]):
+        await update.message.reply_photo(photo="photos/larp.png")
+        return
+
+    elif update.message.from_user.id == rayen_id and "🫩" in update.message.text:
+        if "count" not in context.user_data:
+            context.user_data["count"] = 0
+
+        count = context.user_data.get("count")
+        count += 1
+        context.user_data["count"] = count
+
+        await update.message.reply_text(f"🫩 count:{count}")
+        return
+    
+    elif update.message.from_user.id == rayen_id and "me" in update.message.text:
+        await update.message.reply_photo(photo="photos/dude.png")
+        return
