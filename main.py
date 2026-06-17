@@ -10,6 +10,7 @@ import re
 load_dotenv()
 
 TOKEN = os.getenv("TOKEN")
+print(f"TOKEN: {TOKEN}")
 BOT_USERNAME = os.getenv("BOT_USERNAME")
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
