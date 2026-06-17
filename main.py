@@ -218,7 +218,7 @@ async def changemode_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
 async def leavetime(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message
-    if "leavetime" not in message.lower():
+    if "leavetime" not in message.text.lower():
         return
     
     if not message.reply_to_message:
