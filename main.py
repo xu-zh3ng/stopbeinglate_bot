@@ -201,7 +201,7 @@ async def changemode_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
         url_mode = "driving"
     elif mode == "walk":
         url_mode = "walking"
-    else: url_mode == mode
+    else: url_mode = mode
 
     context.user_data["travel_time"] = travel_time
     arrival_time = datetime.now() + timedelta(minutes=travel_time)
@@ -222,6 +222,9 @@ async def changemode_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
 async def leavetime(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message
+    if "leavetime" not in message.lower():
+        return
+    
     if not message.reply_to_message:
         return
     if message.reply_to_message.from_user.id != context.bot.id:
@@ -252,19 +255,22 @@ async def trolling(update:Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_photo(photo="photos/rainbow.png", caption="guy above looking for cock")
     
     elif update.message.from_user.id == charis_id:
-        if n < 3:
-            picture = random.choice(pictures)
-            await update.message.reply_photo(photo=picture, caption="meal time!")
+         if n < 3:
+             picture = random.choice(pictures)
+             await update.message.reply_photo(photo=picture, caption="meal time!")
 
     elif update.message.from_user.id == anjoe_id:
-        if n < 3:
-            await context.bot.delete_message(chat_id=update.effective_chat.id,
-                                            message_id=update.message.message_id)
-            await context.bot.send_message(chat_id=update.effective_chat.id, text="chong ray en request")
-            await context.bot.send_photo(chat_id=update.effective_chat.id, photo="photos/decree.png")
+        # if n < 3:
+        #     await context.bot.delete_message(chat_id=update.effective_chat.id,
+        #                                     message_id=update.message.message_id)
+        #     await context.bot.send_message(chat_id=update.effective_chat.id, text="chong ray en request")
+        #     await context.bot.send_photo(chat_id=update.effective_chat.id, photo="photos/decree.png")
 
-        elif n > 7:
+        if n > 7:
             await update.message.reply_photo(photo="photos/slander.png")
+    
+    elif update.message.from_user.id == rayen_id:
+        await update.message.reply_photo(photo="photos/idiot.png")
 
 async def catch_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.from_user.id == wayne_id and any(word in update.message.text.lower() for word in ["spurs", "knicks","work"]):
@@ -299,7 +305,7 @@ def main():
     app.add_handler(CommandHandler("meetup", meetup_command))
     app.add_handler(MessageHandler(filters.LOCATION, user_loc))
     app.add_handler(MessageHandler(filters.TEXT & filters.Regex(r"(?i)spurs|knicks|🫩|me|work"), catch_word))
-    app.add_handler(MessageHandler(filters.TEXT & filters.REPLY & filters.Regex(r"(?i)leavetime"), leavetime))
+    app.add_handler(MessageHandler(filters.TEXT & filters.REPLY, leavetime))
     app.add_handler(MessageHandler(filters.TEXT & filters.Regex(r"(?i)jay"), jay))
     app.add_handler(MessageHandler(filters.ALL, trolling))
 

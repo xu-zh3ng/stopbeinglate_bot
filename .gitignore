@@ -2,7 +2,6 @@ larp.jpeg
 .env
 __pycache__/
 *.pyc
-__pycache__/helpers.cpython-314.pyc
 jay.jpg
 rainbow.png
 slander.png
@@ -10,4 +9,4 @@ decree.png
 dude.png
 larp.png
 bot_data.pkl
-bot_data.pkl
+photos/idiot.png
