@@ -61,7 +61,7 @@ async def setpin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     else:
         #is place name --> do placeid search
-        data = get_placeid(input)
+        data = get_placeid(input + " Singapore")
         if not data:
             await update.message.reply_text("Couldn't find that location.")
             print("error 3")

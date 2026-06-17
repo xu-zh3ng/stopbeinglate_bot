@@ -76,7 +76,13 @@ def get_placeid(input: str):
     }
     
     body = {
-        "textQuery": input
+        "textQuery": input,
+        "locationBias": {
+            "circle": {
+                "center": {"latitude": 1.3521, "longitude": 103.8198},  
+                "radius": 50000.0 
+            }
+        }
     }
     
     response = requests.post(url, json=body, headers=headers)
@@ -89,8 +95,3 @@ def get_placeid(input: str):
                 "long" : data["places"][0]["location"]["longitude"]}
         return temp
     return None
-
-pictures = ["https://raw.githubusercontent.com/xu-zh3ng/stopbeinglate_bot/main/images/images%20(1).jpeg",
-            "https://raw.githubusercontent.com/xu-zh3ng/stopbeinglate_bot/main/images/images%20(2).jpeg",
-            "https://raw.githubusercontent.com/xu-zh3ng/stopbeinglate_bot/main/images/images%20(3).jpeg",
-            "https://raw.githubusercontent.com/xu-zh3ng/stopbeinglate_bot/main/images/images%20(4).jpeg"]
