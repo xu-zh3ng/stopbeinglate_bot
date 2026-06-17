@@ -77,12 +77,6 @@ def get_placeid(input: str):
     
     body = {
         "textQuery": input,
-        "locationBias": {
-            "circle": {
-                "center": {"latitude": 1.3521, "longitude": 103.8198},  
-                "radius": 50000.0 
-            }
-        }
     }
     
     response = requests.post(url, json=body, headers=headers)

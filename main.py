@@ -6,12 +6,13 @@ from helpers import get_coords, get_travel_time, meetup_time, get_placename, get
 import os
 from dotenv import load_dotenv
 import re
+import pytz
 
 load_dotenv()
 
 TOKEN = os.getenv("TOKEN")
-print(f"TOKEN: {TOKEN}")
 BOT_USERNAME = os.getenv("BOT_USERNAME")
+SGT = pytz.timezone("Asia/Singapore")
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
@@ -61,7 +62,7 @@ async def setpin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     else:
         #is place name --> do placeid search
-        data = get_placeid(input + " Singapore")
+        data = get_placeid(input)
         if not data:
             await update.message.reply_text("Couldn't find that location.")
             print("error 3")
@@ -152,7 +153,7 @@ async def user_loc(update: Update, context: ContextTypes.DEFAULT_TYPE):
         time = f"{hrs}hrs"
     else:
         time = f"{hrs}hrs {mins}mins"
-    arrival_time = datetime.now() + timedelta(minutes=travel_time)
+    arrival_time = datetime.now(SGT) + timedelta(minutes=travel_time)
     await update.message.reply_text(f"You are {time} away and will arrive at {arrival_time.strftime('%H:%M')}",
                                     reply_markup=InlineKeyboardMarkup([[
                                     InlineKeyboardButton("Open in Google Maps", url=url)
@@ -199,7 +200,7 @@ async def changemode_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
     else: url_mode = mode
 
     context.user_data["travel_time"] = travel_time
-    arrival_time = datetime.now() + timedelta(minutes=travel_time)
+    arrival_time = datetime.now(SGT) + timedelta(minutes=travel_time)
     hrs = int(travel_time / 60)
     mins = travel_time % 60
     if hrs == 0:
